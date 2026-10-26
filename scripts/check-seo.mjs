@@ -46,7 +46,7 @@ for (const route of routes) {
   assert.equal(canonicals[0].href, `${origin}${route}`, `URL canonique incorrecte : ${route}`);
   assert.equal(metadata('og:url'), `${origin}${route}`, `URL de partage incorrecte : ${route}`);
   assert(sitemap.has(`${origin}${route}`), `Page absente du sitemap : ${route}`);
-  assert.equal(tags(html, 'html')[0]?.lang, 'fr', `Langue incorrecte : ${route}`);
+  assert.equal(tags(html, 'html')[0]?.lang, 'fr-FR', `Langue incorrecte : ${route}`);
   assert(!/noindex|nofollow/.test(metadata('robots') ?? ''), `Page non explorable : ${route}`);
   const title = decode(html.match(/<title\b[^>]*>(.*?)<\/title>/)?.[1] ?? '');
   const description = metadata('description');
@@ -55,6 +55,7 @@ for (const route of routes) {
   titles.add(title);
   descriptions.add(description);
   assert.equal(metadata('og:title'), title, `Titre de partage incohérent : ${route}`);
+  assert.equal(metadata('og:type'), route.startsWith('/nouveautes/') ? 'article' : 'website', `Type de page incorrect : ${route}`);
   assert.equal(metadata('og:description'), description, `Description de partage incohérente : ${route}`);
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1, `Titre principal ambigu : ${route}`);
   const image = new URL(metadata('og:image'));
