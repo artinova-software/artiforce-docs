@@ -1,5 +1,6 @@
 ---
 title: "Devis, factures et paiements"
+description: "Comprenez les statuts des devis et factures dans Artiforce : brouillon, finalisation, paiements partiels, avoirs, relances et archivage."
 ---
 
 ## Lire chaque état séparément

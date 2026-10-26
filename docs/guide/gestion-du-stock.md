@@ -1,5 +1,6 @@
 ---
 title: "La gestion du stock"
+description: "Gérez vos fournitures dans Artiforce : quantités, emplacements, seuils d’alerte, mouvements de stock et import de références dans la bibliothèque."
 ---
 
 La bibliothèque conserve vos références, leurs prix et leurs catégories. Le stock suit les quantités et les mouvements de vos fournitures. Une référence de bibliothèque et une quantité physiquement disponible sont deux informations différentes.

@@ -1,5 +1,6 @@
 ---
 title: "Agenda et rendez-vous"
+description: "Configurez le planning de votre équipe dans Artiforce : rendez-vous, horaires, réservation en ligne, calendriers ICS et connexion Google Calendar."
 ---
 
 L’agenda permet d’organiser les rendez-vous de votre équipe, les indisponibilités et les événements personnels. Les accès dépendent des droits du membre : un intervenant peut ne voir que les événements auxquels il est affecté.

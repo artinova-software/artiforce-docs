@@ -1,5 +1,6 @@
 ---
 title: "Faire signer un devis en ligne"
+description: "Faites signer un devis en ligne avec Artiforce lorsque le service est activé : envoi au client, code par e-mail et suivi de l’acceptation."
 ---
 
 Lorsque la signature est activée dans votre espace, le destinataire peut accepter le devis en suivant un lien et en saisissant un code reçu par e-mail.

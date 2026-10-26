@@ -1,5 +1,6 @@
 ---
 title: "Glossaire"
+description: "Retrouvez les termes utilisés dans Artiforce : avoir, reste dû, situation de travaux, archivage, clé API, webhook, calendrier ICS et idempotence."
 ---
 
 | Terme | Signification |

@@ -5,6 +5,7 @@ date: "2026-10-26"
 description: "Archivez vos devis, relisez vos relances et retrouvez plus facilement vos pièces et vos réglages."
 tags: [Amélioration]
 authors: [artiforce]
+image: /assets/social/index.png
 availability_date: "2026-10-20"
 version: "v3.10.1"
 ---

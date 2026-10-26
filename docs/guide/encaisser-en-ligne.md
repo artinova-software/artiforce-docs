@@ -1,5 +1,6 @@
 ---
 title: "Encaisser en ligne"
+description: "Configurez le paiement en ligne dans Artiforce et suivez les règlements de vos factures : activation, paiements partiels et remboursements."
 ---
 
 Le paiement en ligne permet de proposer un règlement depuis un document éligible, lorsque le service est activé et configuré pour votre entreprise.

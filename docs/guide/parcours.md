@@ -1,5 +1,6 @@
 ---
 title: "Du premier client au règlement"
+description: "Créez votre premier client, préparez un devis, facturez un chantier et suivez les règlements dans Artiforce, étape par étape."
 ---
 
 ## 1. Vérifier votre entreprise

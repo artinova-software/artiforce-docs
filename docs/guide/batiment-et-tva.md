@@ -1,5 +1,6 @@
 ---
 title: "TVA et facturation de chantier"
+description: "Préparez la facturation de chantier dans Artiforce : vérification de la TVA, acomptes, situations de travaux, solde et mentions des documents."
 ---
 
 ## Vérifier la TVA avant émission

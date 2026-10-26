@@ -1,6 +1,7 @@
 ---
 slug: /roadmap
 title: "Les prochaines évolutions"
+description: "Consultez les priorités Artiforce : planning, intégrations calendrier, devis, factures et reprise de données, sans engagement de date de disponibilité."
 ---
 
 Dernière mise à jour : **26 octobre 2026**.

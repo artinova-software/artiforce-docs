@@ -1,6 +1,7 @@
 ---
 slug: /api/webhooks
 title: "Recevoir les changements par webhook"
+description: "Recevez les changements de rendez-vous Artiforce par webhook : configuration HTTPS, événements, signature Standard Webhooks et gestion des doublons."
 ---
 
 Les webhooks notifient votre serveur lorsqu’un rendez-vous change. Configurez un endpoint HTTPS dans **Réglages > Agenda > Accès API et webhooks**, avec la session du propriétaire.
