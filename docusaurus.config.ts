@@ -26,13 +26,13 @@ const config: Config = {
     },
   },
 
-  favicon: "img/favicon.svg",
+  favicon: "brand/favicon.ico",
 
   i18n: {
     defaultLocale: "fr",
     locales: ["fr"],
     localeConfigs: {
-      fr: { label: "Français" },
+      fr: { label: "Français", htmlLang: "fr-FR" },
     },
   },
 
@@ -57,16 +57,29 @@ const config: Config = {
           path: "blog",
           routeBasePath: "nouveautes",
           blogTitle: "Les nouveautés Artiforce",
-          blogDescription: "Nouveautés, améliorations et corrections du logiciel Artiforce, anciennement Artinova.",
+          blogDescription:
+            "Nouveautés, améliorations et corrections du logiciel Artiforce, anciennement Artinova.",
           blogSidebarTitle: "Les publications",
           blogSidebarCount: "ALL",
           postsPerPage: 8,
           showReadingTime: false,
-          feedOptions: { type: ["rss", "atom"], limit: false, copyright: "Artiforce" },
-          processBlogPosts: async ({ blogPosts }) => blogPosts.sort((a, b) => {
-            const published = new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime();
-            return published || String(b.metadata.frontMatter.availability_date).localeCompare(String(a.metadata.frontMatter.availability_date));
-          }),
+          feedOptions: {
+            type: ["rss", "atom"],
+            limit: false,
+            copyright: "Artiforce",
+          },
+          processBlogPosts: async ({ blogPosts }) =>
+            blogPosts.sort((a, b) => {
+              const published =
+                new Date(b.metadata.date).getTime() -
+                new Date(a.metadata.date).getTime();
+              return (
+                published ||
+                String(b.metadata.frontMatter.availability_date).localeCompare(
+                  String(a.metadata.frontMatter.availability_date),
+                )
+              );
+            }),
           onUntruncatedBlogPosts: "throw",
           editUrl: `${GITHUB_REPO_URL}/edit/main/`,
         },
@@ -74,6 +87,52 @@ const config: Config = {
           customCss: "./src/css/custom.css",
         },
       } satisfies Preset.Options,
+    ],
+  ],
+
+  plugins: [
+    [
+      "@docusaurus/plugin-pwa",
+      {
+        offlineModeActivationStrategies: [
+          "appInstalled",
+          "standalone",
+          "queryString",
+        ],
+        injectManifestConfig: {
+          // Les pages sont servies sans .html (trailingSlash: false et cleanUrls).
+          manifestTransforms: [async (entries) => ({
+            manifest: entries.map((entry) => ({
+              ...entry,
+              url: entry.url.endsWith(".html") && !entry.url.endsWith("index.html")
+                ? entry.url.slice(0, -5)
+                : entry.url,
+            })),
+            warnings: [],
+          })],
+        },
+        pwaHead: [
+          { tagName: "link", rel: "icon", type: "image/png", sizes: "32x32", href: "/brand/favicon-32x32.png" },
+          { tagName: "link", rel: "icon", type: "image/png", sizes: "16x16", href: "/brand/favicon-16x16.png" },
+          { tagName: "link", rel: "manifest", href: "/manifest.webmanifest" },
+          { tagName: "meta", name: "theme-color", content: "#1869ff" },
+          {
+            tagName: "meta",
+            name: "apple-mobile-web-app-title",
+            content: "Artiforce Docs",
+          },
+          {
+            tagName: "meta",
+            name: "apple-mobile-web-app-status-bar-style",
+            content: "default",
+          },
+          {
+            tagName: "link",
+            rel: "apple-touch-icon",
+            href: "/brand/apple-touch-icon.png",
+          },
+        ],
+      },
     ],
   ],
 
@@ -92,8 +151,14 @@ const config: Config = {
   ],
 
   themeConfig: {
+    image: "assets/social/index.png",
+    metadata: [
+      { property: "og:site_name", content: "Artiforce — Documentation" },
+      { property: "og:type", content: "website" },
+    ],
     navbar: {
       title: "Artiforce",
+      logo: { alt: "Artiforce", src: "brand/android-chrome-192x192.png" },
       items: [
         {
           type: "docSidebar",
@@ -120,15 +185,24 @@ const config: Config = {
     footer: {
       style: "light",
       links: [
-        { title: "Utiliser Artiforce", items: [
-          { label: "Le guide", to: "/guide" },
-          { label: "Connecter vos outils", to: "/api" },
-        ] },
-        { title: "Suivre le produit", items: [
-          { label: "Les nouveautés", to: "/nouveautes" },
-          { label: "La roadmap", to: "/roadmap" },
-          { label: "Flux RSS", href: "https://docs.artiforce.fr/nouveautes/rss.xml" },
-        ] },
+        {
+          title: "Utiliser Artiforce",
+          items: [
+            { label: "Le guide", to: "/guide" },
+            { label: "Connecter vos outils", to: "/api" },
+          ],
+        },
+        {
+          title: "Suivre le produit",
+          items: [
+            { label: "Les nouveautés", to: "/nouveautes" },
+            { label: "La roadmap", to: "/roadmap" },
+            {
+              label: "Flux RSS",
+              href: "https://docs.artiforce.fr/nouveautes/rss.xml",
+            },
+          ],
+        },
       ],
       copyright: `© ${new Date().getFullYear()} Artiforce · Anciennement Artinova`,
     },
