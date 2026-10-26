@@ -19,13 +19,13 @@ const config: Config = {
     v4: true,
   },
 
-  favicon: "img/favicon.svg",
+  favicon: "brand/favicon.ico",
 
   i18n: {
     defaultLocale: "fr",
     locales: ["fr"],
     localeConfigs: {
-      fr: { label: "Français" },
+      fr: { label: "Français", htmlLang: "fr-FR" },
     },
   },
 
@@ -70,6 +70,52 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    [
+      "@docusaurus/plugin-pwa",
+      {
+        offlineModeActivationStrategies: [
+          "appInstalled",
+          "standalone",
+          "queryString",
+        ],
+        injectManifestConfig: {
+          // Les pages sont servies sans .html (trailingSlash: false et cleanUrls).
+          manifestTransforms: [async (entries) => ({
+            manifest: entries.map((entry) => ({
+              ...entry,
+              url: entry.url.endsWith(".html") && !entry.url.endsWith("index.html")
+                ? entry.url.slice(0, -5)
+                : entry.url,
+            })),
+            warnings: [],
+          })],
+        },
+        pwaHead: [
+          { tagName: "link", rel: "icon", type: "image/png", sizes: "32x32", href: "/brand/favicon-32x32.png" },
+          { tagName: "link", rel: "icon", type: "image/png", sizes: "16x16", href: "/brand/favicon-16x16.png" },
+          { tagName: "link", rel: "manifest", href: "/manifest.webmanifest" },
+          { tagName: "meta", name: "theme-color", content: "#1869ff" },
+          {
+            tagName: "meta",
+            name: "apple-mobile-web-app-title",
+            content: "Artiforce Docs",
+          },
+          {
+            tagName: "meta",
+            name: "apple-mobile-web-app-status-bar-style",
+            content: "default",
+          },
+          {
+            tagName: "link",
+            rel: "apple-touch-icon",
+            href: "/brand/apple-touch-icon.png",
+          },
+        ],
+      },
+    ],
+  ],
+
   themes: [
     [
       "@easyops-cn/docusaurus-search-local",
@@ -85,8 +131,14 @@ const config: Config = {
   ],
 
   themeConfig: {
+    image: "assets/social/index.png",
+    metadata: [
+      { property: "og:site_name", content: "Artiforce — Documentation" },
+      { property: "og:type", content: "website" },
+    ],
     navbar: {
       title: "Artiforce",
+      logo: { alt: "Artiforce", src: "brand/android-chrome-192x192.png" },
       items: [
         {
           type: "docSidebar",
