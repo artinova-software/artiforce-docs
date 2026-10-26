@@ -2,7 +2,7 @@
 
 Guide client, API et intégrations publiques, nouveautés, roadmap et vision d’Artiforce, anciennement Artinova.
 
-Site : [docs.artiforce.fr](https://docs.artiforce.fr). Le domaine `changelog.artinova.fr` sert le même site. Les chemins historiques `/p/<slug>` et `/feed.xml` restent utilisables.
+Site : [docs.artiforce.fr](https://docs.artiforce.fr). Le domaine `changelog.artiforce.fr` sert le même site. Les chemins historiques `/p/<slug>` et `/feed.xml` restent utilisables.
 
 ## Développer
 
@@ -35,4 +35,4 @@ Chaque changement passe par une pull request. Employer des commits conventionnel
 
 Le projet `artiforce-docs` utilise le preset Docusaurus, Node.js 24, la racine du dépôt et le dossier de sortie `build/`. La configuration versionnée est dans `vercel.json`. Les publications de `main` alimentent la production via l’intégration Git de Vercel. Le site statique ne nécessite aucune variable secrète.
 
-Les domaines `docs.artiforce.fr` et `changelog.artinova.fr` doivent être rattachés au même projet, sans redirection entre domaines. La première adresse est l’adresse canonique des pages et des flux. Utiliser les valeurs DNS retournées par Vercel pour ce projet ; laisser les enregistrements en DNS uniquement si le fournisseur est Cloudflare.
+Les domaines `docs.artiforce.fr` et `changelog.artiforce.fr` sont rattachés au même projet, sans redirection entre domaines. La première adresse est l’adresse canonique des pages et des flux. Utiliser les valeurs DNS retournées par Vercel pour ce projet ; laisser les enregistrements en DNS uniquement si le fournisseur est Cloudflare.
