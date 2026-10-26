@@ -43,5 +43,21 @@ if(process.argv.includes('--build')){
  for(const route of ['guide','api','roadmap','vision','nouveautes'])assert(output.some(p=>p===`build/${route}.html`||p===`build/${route}/index.html`),`Route absente ${route}`);
  assert(text('build/index.html').includes('Votre travail avance.'),'Accueil absent');
  assert(text('build/sitemap.xml').includes('https://docs.artiforce.fr/'),'Domaine canonique incorrect');
+ const manifest=JSON.parse(text('build/manifest.webmanifest'));
+ assert.equal(manifest.display,'standalone');
+ assert.equal(manifest.scope,'/');
+ for(const icon of manifest.icons)assert(existsSync(`build${icon.src}`),`Icône PWA absente ${icon.src}`);
+ const worker=text('build/sw.js');
+ assert(worker.includes('"url":"guide"'),'Route hors ligne /guide absente');
+ for(const page of ['index','guide','api','nouveautes/connexion-plus-fluide']){
+  const html=text(`build/${page}.html`);
+  for(const property of ['og:title','og:description','og:url','og:image','og:site_name','og:locale','og:type']){
+   assert.equal((html.match(new RegExp(`property=["\']?${property}["\']?(?:\\s|/)`,'g'))||[]).length,1,`Métadonnée ${property} absente ou dupliquée sur ${page}`);
+  }
+  assert(/name=["']?twitter:card["']?\s+content=["']?summary_large_image/.test(html),`Carte Twitter absente sur ${page}`);
+  assert(/href=["']?\/manifest\.webmanifest/.test(html),`Manifeste absent sur ${page}`);
+ }
+ assert(text('build/guide.html').includes('https://docs.artiforce.fr/assets/social/index.png'),'Image de partage par défaut absente');
+ assert(text('build/nouveautes/connexion-plus-fluide.html').includes('https://docs.artiforce.fr/assets/social/connexion-plus-fluide.png'),'Image de partage de l’article absente');
  console.log(`Publication contrôlée : ${posts.length} articles, RSS complet, routes et absence de contenus internes.`);
 }else console.log(`Sources publiques contrôlées : ${posts.length} articles, médias et contrat OpenAPI.`);

@@ -17,6 +17,14 @@ pnpm check:build
 pnpm serve
 ```
 
+## Installation et partage
+
+Le site propose une installation depuis le navigateur grâce au module PWA de Docusaurus. Le manifeste et les icônes sont dans `static/manifest.webmanifest` et `static/brand/`. Le service worker est généré lors de la construction de production ; utiliser `pnpm build` puis `pnpm serve` pour le vérifier localement.
+
+La consultation hors ligne s’active dans l’application installée, après le téléchargement initial des ressources. Le paramètre `?offlineMode=true` permet aussi de la vérifier dans un navigateur. Une nouvelle version propose de recharger la documentation.
+
+Les aperçus Open Graph et Twitter reprennent le titre, la description et l’adresse canonique de chaque page. L’image par défaut est `static/assets/social/index.png` ; le champ `image` des articles permet de définir un visuel spécifique.
+
 ## Contribuer
 
 - `docs/guide/` : guides destinés aux clients, en français.

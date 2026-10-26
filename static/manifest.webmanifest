@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "Artiforce — Documentation et nouveautés",
+  "short_name": "Artiforce Docs",
+  "description": "Les guides, intégrations et nouveautés d’Artiforce pour les entreprises du bâtiment.",
+  "lang": "fr-FR",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#1869ff",
+  "background_color": "#ffffff",
+  "icons": [
+    { "src": "/brand/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/brand/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/brand/maskable-icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/brand/maskable-icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
