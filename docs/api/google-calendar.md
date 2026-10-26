@@ -1,6 +1,7 @@
 ---
 slug: /api/google-calendar
 title: "Connecter Google Calendar"
+description: "Connectez votre compte Google Calendar à Artiforce : autorisation par session, choix du calendrier, copie des rendez-vous et conditions d’activation."
 ---
 
 Chaque membre connecte son propre compte Google depuis les réglages calendrier. La connexion nécessite une session Artiforce et l’autorisation explicite du compte Google concerné. Une clé API ne permet pas d’effectuer cette connexion.

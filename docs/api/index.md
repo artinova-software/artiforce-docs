@@ -1,6 +1,7 @@
 ---
 slug: /api
 title: "API et intégrations"
+description: "Connectez vos outils à Artiforce : API de planification, authentification par clé, webhooks, calendriers ICS, Google Calendar et widget de réservation."
 ---
 
 Connectez votre logiciel à la planification Artiforce, recevez les changements de rendez-vous et intégrez la réservation sur votre site.

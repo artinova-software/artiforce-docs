@@ -1,6 +1,7 @@
 ---
 slug: /api/calendriers
 title: "Flux et abonnements calendrier ICS"
+description: "Consultez vos rendez-vous Artiforce avec un abonnement ICS et ajoutez des calendriers externes : accès par session, adresses secrètes et actualisation."
 ---
 
 Les flux ICS permettent de consulter les événements Artiforce dans un calendrier compatible. Les adresses de calendriers externes permettent aussi de tenir compte des indisponibilités d’un membre dans la recherche de créneaux.

@@ -1,5 +1,6 @@
 ---
 title: "Personnaliser vos documents"
+description: "Personnalisez les devis et factures Artiforce : logo, couleurs, modèles, coordonnées et mentions, avec vérification dans l’aperçu PDF."
 ---
 
 Ouvrez les réglages d’apparence des documents pour choisir le modèle de vos devis et factures.

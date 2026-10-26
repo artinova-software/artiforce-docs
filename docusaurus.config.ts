@@ -6,7 +6,7 @@ const GITHUB_REPO_URL = "https://github.com/artinova-software/artiforce-docs";
 
 const config: Config = {
   title: "Artiforce",
-  tagline: "Le guide, les intégrations et les nouveautés de votre logiciel",
+  tagline: "Guides du logiciel de devis, factures et planning pour le bâtiment",
   url: "https://docs.artiforce.fr",
   baseUrl: "/",
   trailingSlash: false,
@@ -69,6 +69,11 @@ const config: Config = {
           }),
           onUntruncatedBlogPosts: "throw",
           editUrl: `${GITHUB_REPO_URL}/edit/main/`,
+        },
+        sitemap: {
+          // Les fréquences et priorités arbitraires n’aident pas à décrire les pages.
+          changefreq: null,
+          priority: null,
         },
         theme: {
           customCss: "./src/css/custom.css",
@@ -140,6 +145,8 @@ const config: Config = {
   themeConfig: {
     image: "assets/social/index.png",
     metadata: [
+      { name: "robots", content: "max-image-preview:large" },
+      { property: "og:locale", content: "fr_FR" },
       { property: "og:site_name", content: "Artiforce — Documentation" },
       { property: "og:type", content: "website" },
     ],

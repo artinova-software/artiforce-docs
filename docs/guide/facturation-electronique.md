@@ -1,5 +1,6 @@
 ---
 title: "Facturation électronique"
+description: "Comprenez le parcours de facturation électronique dans Artiforce : activation de la plateforme agréée, suivi de transmission et vérification des documents."
 ---
 
 Artiforce prépare et suit vos documents. Les échanges réglementaires passent par une plateforme agréée et nécessitent une activation adaptée à votre entreprise.

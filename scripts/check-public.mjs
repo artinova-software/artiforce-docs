@@ -41,8 +41,9 @@ if(process.argv.includes('--build')){
  assert.equal((rss.match(/<item>/g)||[]).length,posts.length,'Tous les articles doivent figurer dans le RSS');
  for(const post of posts){const slug=text(post).match(/^slug:\s*"?([^"\n]+)/m)?.[1];assert(rss.includes(`/nouveautes/${slug}`),`Article absent du flux ${slug}`);assert(existsSync(`build/nouveautes/${slug}.html`)||existsSync(`build/nouveautes/${slug}/index.html`),`Article non généré ${slug}`);}
  for(const route of ['guide','api','roadmap','vision','nouveautes'])assert(output.some(p=>p===`build/${route}.html`||p===`build/${route}/index.html`),`Route absente ${route}`);
- assert(text('build/index.html').includes('Votre travail avance.'),'Accueil absent');
+ assert(text('build/index.html').includes('Devis, factures et planning :'),'Accueil absent');
  assert(text('build/sitemap.xml').includes('https://docs.artiforce.fr/'),'Domaine canonique incorrect');
+ await import('./check-seo.mjs');
  const manifest=JSON.parse(text('build/manifest.webmanifest'));
  assert.equal(manifest.display,'standalone');
  assert.equal(manifest.scope,'/');

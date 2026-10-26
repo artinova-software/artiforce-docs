@@ -1,3 +1,4 @@
+import Head from "@docusaurus/Head";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 
@@ -73,18 +74,33 @@ const paths: {
 export default function Home() {
   return (
     <Layout
-      title="Documentation et nouveautés"
-      description="Prenez en main Artiforce, connectez vos outils et suivez les évolutions du logiciel pour les entreprises du bâtiment."
+      title="Guides devis, factures et planning bâtiment"
+      description="Utilisez Artiforce pour vos devis, factures et chantiers : guides pour les artisans du bâtiment, planning, stocks et documentation des intégrations API."
     >
+      <Head>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "@id": "https://docs.artiforce.fr/#website",
+            name: "Documentation Artiforce",
+            alternateName: "Artiforce",
+            url: "https://docs.artiforce.fr/",
+            inLanguage: "fr-FR",
+            description: "Guides et intégrations du logiciel Artiforce pour les entreprises du bâtiment.",
+          })}
+        </script>
+      </Head>
       <main className="home-main">
         <div className="home-hero">
           <div className="home-shell">
             <header className="home-header">
               <p className="home-kicker">La documentation Artiforce</p>
-              <h1>Votre travail avance.</h1>
+              <h1>Devis, factures et planning : le guide Artiforce.</h1>
               <p className="home-intro">
-                Retrouvez les guides, les intégrations et les nouveautés pour
-                travailler simplement avec Artiforce.
+                Les guides pour gérer votre entreprise du bâtiment avec Artiforce :
+                préparer vos devis, facturer vos chantiers, suivre les paiements
+                et organiser les interventions de votre équipe.
               </p>
               <div className="home-actions">
                 <Link className="button button--primary" to="/guide">
@@ -115,6 +131,41 @@ export default function Home() {
                   </span>
                 </Link>
               ))}
+            </div>
+          </section>
+
+          <section className="home-paths" aria-labelledby="practical-guides">
+            <div className="home-section-heading">
+              <h2 id="practical-guides">Les guides pour votre entreprise du bâtiment</h2>
+            </div>
+            <div className="home-grid">
+              <article className="home-card">
+                <h3>Devis et facturation de chantier</h3>
+                <ul className="home-resource-list">
+                  <li><Link to="/guide/parcours">Créer un client, un devis et une facture</Link></li>
+                  <li><Link to="/guide/batiment-et-tva">Suivre les acomptes, situations et le solde d’un chantier</Link></li>
+                  <li><Link to="/guide/personnaliser-vos-documents">Personnaliser les PDF de vos devis et factures</Link></li>
+                  <li><Link to="/guide/signer-un-devis">Faire signer un devis en ligne</Link></li>
+                </ul>
+              </article>
+              <article className="home-card">
+                <h3>Paiements et comptabilité</h3>
+                <ul className="home-resource-list">
+                  <li><Link to="/guide/factures-et-statuts">Comprendre les paiements, avoirs et relances</Link></li>
+                  <li><Link to="/guide/encaisser-en-ligne">Configurer l’encaissement en ligne</Link></li>
+                  <li><Link to="/guide/comptabilite-et-conservation">Préparer les pièces pour votre comptable</Link></li>
+                  <li><Link to="/guide/facturation-electronique">Comprendre la facturation électronique</Link></li>
+                </ul>
+              </article>
+              <article className="home-card">
+                <h3>Planning, stock et intégrations</h3>
+                <ul className="home-resource-list">
+                  <li><Link to="/guide/agenda">Organiser les rendez-vous de votre équipe</Link></li>
+                  <li><Link to="/guide/gestion-du-stock">Suivre les fournitures et les mouvements de stock</Link></li>
+                  <li><Link to="/api/reservation">Intégrer la réservation sur votre site</Link></li>
+                  <li><Link to="/api/planification">Connecter l’API de planification Artiforce</Link></li>
+                </ul>
+              </article>
             </div>
           </section>
 

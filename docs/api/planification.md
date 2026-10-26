@@ -1,6 +1,7 @@
 ---
 slug: /api/planification
 title: "Contrat de planification"
+description: "Intégrez l’API de planification Artiforce : rendez-vous, créneaux, idempotence, versions, fuseau Europe/Paris et contrat OpenAPI téléchargeable."
 ---
 
 Base : `https://api.artinova.fr/v1/tenants/{tenantId}/planning`.

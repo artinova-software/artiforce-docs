@@ -1,5 +1,6 @@
 ---
 title: "Le produit et ses possibilités"
+description: "Découvrez les fonctions Artiforce pour les artisans du bâtiment : gestion des clients, devis, factures, chantiers, stocks, comptabilité et planning."
 ---
 
 Artiforce rassemble le suivi administratif et commercial d’une entreprise du bâtiment. Les informations d’un client et les lignes d’un devis peuvent être reprises dans la suite du travail, pour limiter la ressaisie.

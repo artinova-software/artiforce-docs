@@ -1,5 +1,6 @@
 ---
 title: "Comptabilité et conservation"
+description: "Préparez les pièces pour votre cabinet dans Artiforce : accès comptable, exports, archives de factures et conservation des documents originaux."
 ---
 
 L’espace Comptabilité aide à rassembler et transmettre les pièces de votre entreprise. Vous restez responsable de la vérification des documents et du rapprochement avec votre cabinet.

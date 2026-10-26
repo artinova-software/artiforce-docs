@@ -1,6 +1,7 @@
 ---
 slug: /vision
 title: "Notre vision"
+description: "Découvrez la vision Artiforce pour les artisans et petites entreprises du bâtiment : relier clients, devis, interventions, facturation et encaissements."
 ---
 
 Artiforce existe pour redonner aux entreprises du bâtiment le temps consacré à une administration dispersée. Notre objectif est de relier le travail commercial, les interventions et la facturation dans un outil simple, utilisable au bureau comme sur le terrain.

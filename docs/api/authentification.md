@@ -1,6 +1,7 @@
 ---
 slug: /api/authentification
 title: "Authentification et droits"
+description: "Authentifiez vos appels à l’API Artiforce : création de clés, permissions de planification, limites de requêtes et distinction avec la session utilisateur."
 ---
 
 ## Créer une clé

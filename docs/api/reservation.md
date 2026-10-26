@@ -1,6 +1,7 @@
 ---
 slug: /api/reservation
 title: "Réservation en ligne et widget"
+description: "Intégrez la réservation Artiforce sur votre site : lien public, widget JavaScript, iframe, API publique et conditions d’activation du planning."
 ---
 
 Partagez votre page de réservation ou intégrez-la à votre site. Avant de commencer, configurez dans Artiforce la zone d’intervention, les types réservables, les membres et leurs horaires, puis activez la réservation en ligne.
