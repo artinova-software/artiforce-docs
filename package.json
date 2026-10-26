@@ -1,0 +1,31 @@
+{
+  "name": "artiforce-docs",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@12.14.0",
+  "scripts": {
+    "start": "docusaurus start --port 6100 --no-open",
+    "build": "docusaurus build",
+    "serve": "docusaurus serve --port 6100",
+    "clear": "docusaurus clear",
+    "check": "node scripts/check-public.mjs",
+    "check:build": "node scripts/check-public.mjs --build"
+  },
+  "dependencies": {
+    "@docusaurus/core": "3.10.2",
+    "@docusaurus/faster": "3.10.2",
+    "@docusaurus/preset-classic": "3.10.2",
+    "@easyops-cn/docusaurus-search-local": "0.55.3",
+    "prism-react-renderer": "2.4.1",
+    "react": "19.2.7",
+    "react-dom": "19.2.7"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "3.10.2",
+    "@docusaurus/tsconfig": "3.10.2",
+    "@docusaurus/types": "3.10.2"
+  },
+  "engines": {
+    "node": ">=20.0"
+  }
+}

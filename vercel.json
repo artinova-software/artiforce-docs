@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "docusaurus-2",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm check && pnpm build && pnpm check:build",
+  "outputDirectory": "build",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/p/:slug", "destination": "/nouveautes/:slug" },
+    { "source": "/feed.xml", "destination": "/nouveautes/rss.xml" }
+  ]
+}

@@ -1,0 +1,2430 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Artiforce Planning API",
+    "version": "1.0.0",
+    "description": "API de planification Artiforce. Authentification Bearer par clé API. Les droits du membre sont limités par les permissions planning:read et planning:write. La clé ne permet ni administration ni suppression. 120 requêtes par minute par clé. Les créations nécessitent Idempotency-Key."
+  },
+  "servers": [
+    {
+      "url": "https://api.artinova.fr"
+    }
+  ],
+  "tags": [
+    {
+      "name": "planning"
+    }
+  ],
+  "paths": {
+    "/v1/tenants/{tenantId}/planning/context": {
+      "get": {
+        "operationId": "PlanningSettingsController_context",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningContextDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/v1/tenants/{tenantId}/planning/settings": {
+      "get": {
+        "operationId": "PlanningSettingsController_getSettings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningSettingsDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/v1/tenants/{tenantId}/planning/geocode": {
+      "post": {
+        "operationId": "PlanningSettingsController_geocode",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GeocodePlanningAddressDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningAddressCheckDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          },
+          "422": {
+            "description": "ADDRESS_NOT_FOUND"
+          },
+          "503": {
+            "description": "ADDRESS_SERVICE_UNAVAILABLE"
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/v1/tenants/{tenantId}/planning/members": {
+      "get": {
+        "operationId": "PlanningTeamController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningMemberListDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/v1/tenants/{tenantId}/planning/members/{userId}/sector-assignments": {
+      "get": {
+        "operationId": "PlanningTeamController_listSectorAssignments",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "required": true,
+            "in": "query",
+            "description": "First company date, inclusive.",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+              "description": "First company date, inclusive."
+            }
+          },
+          {
+            "name": "to",
+            "required": true,
+            "in": "query",
+            "description": "Last company date, inclusive; at most 366 days after from.",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+              "description": "Last company date, inclusive; at most 366 days after from."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningSectorAssignmentListDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          },
+          "404": {
+            "description": "PLANNING_MEMBER_NOT_FOUND: not an ACTIVE member of the workspace."
+          },
+          "422": {
+            "description": "PLANNING_RANGE_TOO_LONG"
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/v1/tenants/{tenantId}/planning/skills": {
+      "get": {
+        "operationId": "PlanningCatalogController_listSkills",
+        "parameters": [
+          {
+            "name": "includeArchived",
+            "required": false,
+            "in": "query",
+            "description": "Also lists the archived rows (default false).",
+            "schema": {
+              "description": "Also lists the archived rows (default false).",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningSkillListDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/v1/tenants/{tenantId}/planning/intervention-types": {
+      "get": {
+        "operationId": "PlanningCatalogController_listTypes",
+        "parameters": [
+          {
+            "name": "includeArchived",
+            "required": false,
+            "in": "query",
+            "description": "Also lists the archived rows (default false).",
+            "schema": {
+              "description": "Also lists the archived rows (default false).",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterventionTypeListDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/v1/tenants/{tenantId}/planning/events": {
+      "get": {
+        "operationId": "PlanningEventsController_list",
+        "parameters": [
+          {
+            "name": "from",
+            "required": true,
+            "in": "query",
+            "description": "First company date, inclusive.",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+              "description": "First company date, inclusive."
+            }
+          },
+          {
+            "name": "to",
+            "required": true,
+            "in": "query",
+            "description": "Last company date, inclusive; 92 days at most.",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+              "description": "Last company date, inclusive; 92 days at most."
+            }
+          },
+          {
+            "name": "userIds",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated user ids. Omitted: everybody the member may see.",
+            "schema": {
+              "description": "Comma-separated user ids. Omitted: everybody the member may see.",
+              "type": "string",
+              "maxLength": 4000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningEventListDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          },
+          "422": {
+            "description": "PLANNING_RANGE_TOO_LONG"
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      },
+      "post": {
+        "operationId": "PlanningEventsController_create",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "description": "1-128 characters among letters, digits and . _ : -. A retry with the same key and payload answers the same event.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlanningEventDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningEventDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "PLANNING_IDEMPOTENCY_KEY_REQUIRED, PLANNING_IDEMPOTENCY_KEY_INVALID"
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          },
+          "404": {
+            "description": "PLANNING_LINK_NOT_FOUND (details.kind), PLANNING_MEMBER_NOT_FOUND"
+          },
+          "409": {
+            "description": "PLANNING_OVERLAP (details.userId), PLANNING_IDEMPOTENCY_CONFLICT"
+          },
+          "422": {
+            "description": "PLANNING_TRANSPARENCY_INVALID, NONEXISTENT_LOCAL_TIME, AMBIGUOUS_LOCAL_TIME, PLANNING_ASSIGNMENTS_INVALID, PLANNING_DURATION_REQUIRED, PLANNING_RANGE_TOO_LONG, ADDRESS_NOT_FOUND"
+          },
+          "503": {
+            "description": "ADDRESS_SERVICE_UNAVAILABLE"
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/v1/tenants/{tenantId}/planning/next-appointment": {
+      "get": {
+        "operationId": "PlanningEventsController_nextAppointment",
+        "parameters": [
+          {
+            "name": "userIds",
+            "required": false,
+            "in": "query",
+            "description": "Comma-separated user ids. Omitted: everybody the member may see.",
+            "schema": {
+              "description": "Comma-separated user ids. Omitted: everybody the member may see.",
+              "type": "string",
+              "maxLength": 4000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningNextAppointmentDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/v1/tenants/{tenantId}/planning/events/{eventId}": {
+      "get": {
+        "operationId": "PlanningEventsController_get",
+        "parameters": [
+          {
+            "name": "eventId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningEventDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          },
+          "404": {
+            "description": "PLANNING_EVENT_NOT_FOUND"
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      },
+      "patch": {
+        "operationId": "PlanningEventsController_update",
+        "parameters": [
+          {
+            "name": "eventId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlanningEventDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningEventDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          },
+          "404": {
+            "description": "PLANNING_EVENT_NOT_FOUND, PLANNING_LINK_NOT_FOUND (details.kind), PLANNING_MEMBER_NOT_FOUND"
+          },
+          "409": {
+            "description": "VERSION_CONFLICT, PLANNING_OVERLAP (details.userId), PLANNING_WRITE_CONFLICT"
+          },
+          "422": {
+            "description": "PLANNING_TRANSPARENCY_INVALID, NONEXISTENT_LOCAL_TIME, AMBIGUOUS_LOCAL_TIME, PLANNING_ASSIGNMENTS_INVALID, PLANNING_DURATION_REQUIRED, PLANNING_RANGE_TOO_LONG, ADDRESS_NOT_FOUND"
+          },
+          "503": {
+            "description": "ADDRESS_SERVICE_UNAVAILABLE"
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/v1/tenants/{tenantId}/planning/events/{eventId}/transitions": {
+      "post": {
+        "operationId": "PlanningEventsController_transition",
+        "parameters": [
+          {
+            "name": "eventId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransitionPlanningEventDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningEventDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          },
+          "404": {
+            "description": "PLANNING_EVENT_NOT_FOUND"
+          },
+          "409": {
+            "description": "VERSION_CONFLICT, PLANNING_INVALID_TRANSITION, PLANNING_OVERLAP (details.userId)"
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/v1/tenants/{tenantId}/planning/slots/search": {
+      "post": {
+        "operationId": "PlanningEventsController_searchSlots",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchPlanningSlotsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanningSlotSearchDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not a member of the workspace or missing permission."
+          },
+          "404": {
+            "description": "PLANNING_INTERVENTION_TYPE_NOT_FOUND"
+          },
+          "422": {
+            "description": "PLANNING_CENTER_REQUIRED, ADDRESS_NOT_FOUND"
+          },
+          "503": {
+            "description": "ADDRESS_SERVICE_UNAVAILABLE"
+          }
+        },
+        "security": [
+          {
+            "planningApiKey": []
+          }
+        ],
+        "tags": [
+          "planning"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreatePlanningEventDto": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "APPOINTMENT",
+              "PERSONAL",
+              "UNAVAILABILITY"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "notes": {
+            "nullable": true,
+            "type": "string",
+            "maxLength": 5000
+          },
+          "interventionTypeId": {
+            "nullable": true,
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "customerId": {
+            "nullable": true,
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "quoteId": {
+            "nullable": true,
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "worksJobId": {
+            "nullable": true,
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "address": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200,
+            "example": "12 rue de la Liberté 21000 Dijon"
+          },
+          "assignments": {
+            "minItems": 1,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "MAIN",
+                    "SECONDARY"
+                  ]
+                }
+              },
+              "required": [
+                "userId",
+                "role"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "timing": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+                    "description": "Company date of the start."
+                  },
+                  "startMinute": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1439,
+                    "description": "Local minutes since midnight."
+                  },
+                  "durationMin": {
+                    "description": "Defaults to the intervention type's duration.",
+                    "nullable": true,
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 44640
+                  },
+                  "arrivalWindowMin": {
+                    "description": "Promised arrival window; defaults to the intervention type's, else 0.",
+                    "nullable": true,
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 480
+                  },
+                  "ambiguity": {
+                    "description": "Which reading of a wall time the autumn change repeats.",
+                    "nullable": true,
+                    "type": "string",
+                    "enum": [
+                      "earlier",
+                      "later"
+                    ]
+                  }
+                },
+                "required": [
+                  "date",
+                  "startMinute"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "allDay": {
+                    "type": "object",
+                    "properties": {
+                      "startDate": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+                        "description": "Exclusive."
+                      }
+                    },
+                    "required": [
+                      "startDate",
+                      "endDate"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "allDay"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "transparency": {
+            "description": "FREE (blocks nobody) is allowed on a PERSONAL entry only.",
+            "nullable": true,
+            "type": "string",
+            "enum": [
+              "BUSY",
+              "FREE"
+            ]
+          },
+          "status": {
+            "description": "Staff create confirmed events; PENDING_APPROVAL comes from public booking only.",
+            "nullable": true,
+            "type": "string",
+            "enum": [
+              "CONFIRMED"
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "title",
+          "assignments",
+          "timing"
+        ],
+        "additionalProperties": false
+      },
+      "GeocodePlanningAddressDto": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200,
+            "example": "12 rue de la Liberté 21000 Dijon"
+          }
+        },
+        "required": [
+          "address"
+        ],
+        "additionalProperties": false
+      },
+      "GeocodedAddressDto": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "example": "12 Rue de la Liberté 21000 Dijon"
+          },
+          "citycode": {
+            "type": "string",
+            "nullable": true,
+            "description": "INSEE code"
+          },
+          "postcode": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "lat": {
+            "type": "number"
+          },
+          "lon": {
+            "type": "number"
+          },
+          "score": {
+            "type": "number",
+            "description": "Match score of the BAN, 0..1."
+          },
+          "type": {
+            "type": "string",
+            "example": "housenumber"
+          }
+        },
+        "required": [
+          "label",
+          "citycode",
+          "postcode",
+          "city",
+          "lat",
+          "lon",
+          "score",
+          "type"
+        ]
+      },
+      "InterventionTypeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "durationMin": {
+            "type": "number"
+          },
+          "arrivalWindowMin": {
+            "type": "number"
+          },
+          "bufferMin": {
+            "type": "number",
+            "nullable": true
+          },
+          "requiredPeople": {
+            "type": "number"
+          },
+          "validationMode": {
+            "type": "string",
+            "enum": [
+              "DIRECT",
+              "REQUEST"
+            ]
+          },
+          "bookableOnline": {
+            "type": "boolean"
+          },
+          "publicDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressQuestion": {
+            "type": "string",
+            "nullable": true
+          },
+          "catalogItemId": {
+            "type": "string",
+            "nullable": true
+          },
+          "colorKey": {
+            "type": "string",
+            "enum": [
+              "brand-blue",
+              "teal",
+              "indigo",
+              "violet",
+              "raspberry",
+              "brown",
+              "olive",
+              "slate"
+            ],
+            "nullable": true
+          },
+          "checklistTemplate": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningChecklistStepDto"
+            }
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningSkillRefDto"
+            }
+          },
+          "archivedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "durationMin",
+          "arrivalWindowMin",
+          "bufferMin",
+          "requiredPeople",
+          "validationMode",
+          "bookableOnline",
+          "publicDescription",
+          "addressQuestion",
+          "catalogItemId",
+          "colorKey",
+          "checklistTemplate",
+          "skills",
+          "archivedAt"
+        ]
+      },
+      "InterventionTypeListDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InterventionTypeDto"
+            }
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
+      "PlanningAddressCheckDto": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/GeocodedAddressDto"
+          },
+          "centerConfigured": {
+            "type": "boolean",
+            "description": "False while the settings have no centre."
+          },
+          "sector": {
+            "type": "string",
+            "enum": [
+              "CENTER",
+              "NORTH",
+              "EAST",
+              "SOUTH",
+              "WEST"
+            ],
+            "nullable": true
+          },
+          "outOfArea": {
+            "type": "boolean"
+          },
+          "distanceM": {
+            "type": "number",
+            "nullable": true,
+            "description": "Straight-line distance to the centre."
+          }
+        },
+        "required": [
+          "address",
+          "centerConfigured",
+          "sector",
+          "outOfArea",
+          "distanceM"
+        ]
+      },
+      "PlanningAllDayDto": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Exclusive."
+          }
+        },
+        "required": [
+          "startDate",
+          "endDate"
+        ]
+      },
+      "PlanningCenterDto": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "lat": {
+            "type": "number"
+          },
+          "lon": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "label",
+          "lat",
+          "lon"
+        ]
+      },
+      "PlanningChecklistStepDto": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "label"
+        ]
+      },
+      "PlanningContextDto": {
+        "type": "object",
+        "properties": {
+          "timeZone": {
+            "type": "string",
+            "example": "Europe/Paris"
+          },
+          "today": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-10-25"
+          }
+        },
+        "required": [
+          "timeZone",
+          "today"
+        ]
+      },
+      "PlanningEventCustomerDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "phone"
+        ]
+      },
+      "PlanningEventDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "APPOINTMENT",
+              "PERSONAL",
+              "UNAVAILABILITY"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING_APPROVAL",
+              "CONFIRMED",
+              "IN_PROGRESS",
+              "COMPLETED",
+              "CANCELLED",
+              "DECLINED",
+              "EXPIRED"
+            ]
+          },
+          "transparency": {
+            "type": "string",
+            "enum": [
+              "BUSY",
+              "FREE"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "MANUAL",
+              "PUBLIC_BOOKING",
+              "API"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Planned start, ISO UTC."
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Planned end, ISO UTC."
+          },
+          "window": {
+            "description": "The window of arrival promised.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PlanningIntervalDto"
+              }
+            ]
+          },
+          "allDay": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PlanningAllDayDto"
+              }
+            ]
+          },
+          "timeZone": {
+            "type": "string",
+            "example": "Europe/Paris"
+          },
+          "intervenants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningEventIntervenantDto"
+            }
+          },
+          "wholeTeam": {
+            "type": "boolean",
+            "description": "Always false: every event names its people."
+          },
+          "customer": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PlanningEventCustomerDto"
+              }
+            ]
+          },
+          "address": {
+            "type": "string",
+            "nullable": true,
+            "description": "Geocoded address label."
+          },
+          "sector": {
+            "type": "string",
+            "enum": [
+              "CENTER",
+              "NORTH",
+              "EAST",
+              "SOUTH",
+              "WEST"
+            ],
+            "nullable": true
+          },
+          "interventionType": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PlanningEventTypeRefDto"
+              }
+            ]
+          },
+          "quoteId": {
+            "type": "string",
+            "nullable": true
+          },
+          "worksJobId": {
+            "type": "string",
+            "nullable": true
+          },
+          "internalNotes": {
+            "type": "string",
+            "nullable": true
+          },
+          "bookingReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "seriesId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Always null: no series yet."
+          },
+          "holdExpiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "reschedulePolicy": {
+            "type": "string",
+            "enum": [
+              "DIRECT",
+              "PROPOSAL"
+            ],
+            "description": "PROPOSAL: a customer appointment booked online; a move becomes a proposal the customer answers."
+          },
+          "pendingReschedule": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PlanningPendingRescheduleDto"
+              }
+            ]
+          },
+          "version": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "status",
+          "transparency",
+          "source",
+          "title",
+          "start",
+          "end",
+          "window",
+          "allDay",
+          "timeZone",
+          "intervenants",
+          "wholeTeam",
+          "customer",
+          "address",
+          "sector",
+          "interventionType",
+          "quoteId",
+          "worksJobId",
+          "internalNotes",
+          "bookingReference",
+          "seriesId",
+          "holdExpiresAt",
+          "reschedulePolicy",
+          "pendingReschedule",
+          "version"
+        ]
+      },
+      "PlanningEventIntervenantDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The member's user id."
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "initials": {
+            "type": "string"
+          },
+          "colorKey": {
+            "type": "string",
+            "enum": [
+              "brand-blue",
+              "teal",
+              "indigo",
+              "violet",
+              "raspberry",
+              "brown",
+              "olive",
+              "slate"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "MAIN",
+              "SECONDARY"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "initials",
+          "colorKey",
+          "role"
+        ]
+      },
+      "PlanningEventListDto": {
+        "type": "object",
+        "properties": {
+          "timeZone": {
+            "type": "string",
+            "example": "Europe/Paris"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningEventDto"
+            }
+          }
+        },
+        "required": [
+          "timeZone",
+          "events"
+        ]
+      },
+      "PlanningEventTypeRefDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "label"
+        ]
+      },
+      "PlanningIntervalDto": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "start",
+          "end"
+        ]
+      },
+      "PlanningIntervenantDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The member's user id."
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "initials": {
+            "type": "string",
+            "example": "JM"
+          },
+          "colorKey": {
+            "type": "string",
+            "enum": [
+              "brand-blue",
+              "teal",
+              "indigo",
+              "violet",
+              "raspberry",
+              "brown",
+              "olive",
+              "slate"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "initials",
+          "colorKey"
+        ]
+      },
+      "PlanningMemberDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "The member's user id."
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "initials": {
+            "type": "string",
+            "example": "JM"
+          },
+          "colorKey": {
+            "type": "string",
+            "enum": [
+              "brand-blue",
+              "teal",
+              "indigo",
+              "violet",
+              "raspberry",
+              "brown",
+              "olive",
+              "slate"
+            ]
+          },
+          "schedulable": {
+            "type": "boolean"
+          },
+          "startKind": {
+            "type": "string",
+            "enum": [
+              "HOME",
+              "DEPOT"
+            ]
+          },
+          "start": {
+            "nullable": true,
+            "description": "Where the day starts (often a home): null unless the reader holds planning:manage or is this member.",
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PlanningStartDto"
+              }
+            ]
+          },
+          "hasProfile": {
+            "type": "boolean",
+            "description": "False while the defaults are shown (no profile yet)."
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningSkillRefDto"
+            }
+          },
+          "workingHours": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningWorkingHoursDto"
+            }
+          },
+          "sectorRules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningSectorRuleDto"
+            }
+          }
+        },
+        "required": [
+          "userId",
+          "displayName",
+          "initials",
+          "colorKey",
+          "schedulable",
+          "startKind",
+          "start",
+          "hasProfile",
+          "skills",
+          "workingHours",
+          "sectorRules"
+        ]
+      },
+      "PlanningMemberListDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningMemberDto"
+            }
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
+      "PlanningNextAppointmentDto": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PlanningEventDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "event"
+        ]
+      },
+      "PlanningPendingRescheduleDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "windowStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "windowEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "plannedStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "plannedEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The customer answers before."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "windowStart",
+          "windowEnd",
+          "plannedStart",
+          "plannedEnd",
+          "expiresAt",
+          "createdAt"
+        ]
+      },
+      "PlanningSectorAssignmentDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "startMinute": {
+            "type": "number"
+          },
+          "endMinute": {
+            "type": "number"
+          },
+          "sector": {
+            "type": "string",
+            "enum": [
+              "CENTER",
+              "NORTH",
+              "EAST",
+              "SOUTH",
+              "WEST"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "date",
+          "startMinute",
+          "endMinute",
+          "sector"
+        ]
+      },
+      "PlanningSectorAssignmentListDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningSectorAssignmentDto"
+            }
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
+      "PlanningSectorRuleDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "weekday": {
+            "type": "number"
+          },
+          "startMinute": {
+            "type": "number"
+          },
+          "endMinute": {
+            "type": "number"
+          },
+          "sector": {
+            "type": "string",
+            "enum": [
+              "CENTER",
+              "NORTH",
+              "EAST",
+              "SOUTH",
+              "WEST"
+            ]
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "weekday",
+          "startMinute",
+          "endMinute",
+          "sector",
+          "validFrom",
+          "validTo"
+        ]
+      },
+      "PlanningSettingsDto": {
+        "type": "object",
+        "properties": {
+          "timeZone": {
+            "type": "string",
+            "example": "Europe/Paris"
+          },
+          "center": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PlanningCenterDto"
+              }
+            ]
+          },
+          "centerRadiusM": {
+            "type": "number"
+          },
+          "maxRadiusM": {
+            "type": "number"
+          },
+          "defaultBufferMin": {
+            "type": "number"
+          },
+          "minNoticeMin": {
+            "type": "number"
+          },
+          "publicHorizonDays": {
+            "type": "number"
+          },
+          "slotGranularityMin": {
+            "type": "number"
+          },
+          "holdHours": {
+            "type": "number"
+          },
+          "accentColor": {
+            "type": "string",
+            "nullable": true
+          },
+          "embedOrigins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "allowMemberChoice": {
+            "type": "boolean"
+          },
+          "publicBookingEnabled": {
+            "type": "boolean"
+          },
+          "coverageHint": {
+            "type": "string",
+            "nullable": true
+          },
+          "publicBookingAvailable": {
+            "type": "boolean",
+            "description": "False while the platform switch PLANNING_PUBLIC_BOOKING_ENABLED is off: no workspace takes online bookings, whatever publicBookingEnabled says."
+          },
+          "smsReminderEnabled": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "number"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "timeZone",
+          "center",
+          "centerRadiusM",
+          "maxRadiusM",
+          "defaultBufferMin",
+          "minNoticeMin",
+          "publicHorizonDays",
+          "slotGranularityMin",
+          "holdHours",
+          "accentColor",
+          "embedOrigins",
+          "allowMemberChoice",
+          "publicBookingEnabled",
+          "coverageHint",
+          "publicBookingAvailable",
+          "smsReminderEnabled",
+          "version",
+          "updatedAt"
+        ]
+      },
+      "PlanningSkillDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "archivedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "archivedAt"
+        ]
+      },
+      "PlanningSkillListDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningSkillDto"
+            }
+          }
+        },
+        "required": [
+          "items"
+        ]
+      },
+      "PlanningSkillRefDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "PlanningSlotDayDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "slots": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningSlotDto"
+            }
+          }
+        },
+        "required": [
+          "date",
+          "slots"
+        ]
+      },
+      "PlanningSlotDto": {
+        "type": "object",
+        "properties": {
+          "plannedStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "plannedEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "windowStart": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "windowEnd": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "intervenants": {
+            "description": "The members the slot would block, the preferred one first.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningIntervenantDto"
+            }
+          }
+        },
+        "required": [
+          "plannedStart",
+          "plannedEnd",
+          "windowStart",
+          "windowEnd",
+          "intervenants"
+        ]
+      },
+      "PlanningSlotSearchDto": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "$ref": "#/components/schemas/GeocodedAddressDto"
+          },
+          "sector": {
+            "type": "string",
+            "enum": [
+              "CENTER",
+              "NORTH",
+              "EAST",
+              "SOUTH",
+              "WEST"
+            ],
+            "nullable": true
+          },
+          "outOfArea": {
+            "type": "boolean"
+          },
+          "distanceM": {
+            "type": "number"
+          },
+          "days": {
+            "description": "Days without a slot are omitted.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlanningSlotDayDto"
+            }
+          }
+        },
+        "required": [
+          "address",
+          "sector",
+          "outOfArea",
+          "distanceM",
+          "days"
+        ]
+      },
+      "PlanningStartDto": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "lat": {
+            "type": "number"
+          },
+          "lon": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "label",
+          "lat",
+          "lon"
+        ]
+      },
+      "PlanningWorkingHoursDto": {
+        "type": "object",
+        "properties": {
+          "weekday": {
+            "type": "number"
+          },
+          "startMinute": {
+            "type": "number"
+          },
+          "endMinute": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "weekday",
+          "startMinute",
+          "endMinute"
+        ]
+      },
+      "SearchPlanningSlotsDto": {
+        "type": "object",
+        "properties": {
+          "interventionTypeId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "address": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200,
+            "example": "12 rue de la Liberté 21000 Dijon"
+          },
+          "from": {
+            "description": "First company date searched; default today.",
+            "nullable": true,
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "horizonDays": {
+            "description": "Days searched, `from` included; default the settings' public horizon.",
+            "nullable": true,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 92
+          },
+          "preferredUserId": {
+            "nullable": true,
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "excludeEventId": {
+            "description": "The event being rescheduled: its members' time on it is not busy.",
+            "nullable": true,
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "interventionTypeId",
+          "address"
+        ],
+        "additionalProperties": false
+      },
+      "TransitionPlanningEventDto": {
+        "type": "object",
+        "properties": {
+          "to": {
+            "type": "string",
+            "enum": [
+              "PENDING_APPROVAL",
+              "CONFIRMED",
+              "IN_PROGRESS",
+              "COMPLETED",
+              "CANCELLED",
+              "DECLINED",
+              "EXPIRED"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "to",
+          "version"
+        ],
+        "additionalProperties": false
+      },
+      "UpdatePlanningEventDto": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          },
+          "title": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "notes": {
+            "nullable": true,
+            "type": "string",
+            "maxLength": 5000
+          },
+          "interventionTypeId": {
+            "nullable": true,
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "customerId": {
+            "nullable": true,
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "quoteId": {
+            "nullable": true,
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "worksJobId": {
+            "nullable": true,
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "address": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200,
+            "example": "12 rue de la Liberté 21000 Dijon"
+          },
+          "assignments": {
+            "nullable": true,
+            "minItems": 1,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "MAIN",
+                    "SECONDARY"
+                  ]
+                }
+              },
+              "required": [
+                "userId",
+                "role"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "timing": {
+            "nullable": true,
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+                    "description": "Company date of the start."
+                  },
+                  "startMinute": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1439,
+                    "description": "Local minutes since midnight."
+                  },
+                  "durationMin": {
+                    "description": "Defaults to the intervention type's duration.",
+                    "nullable": true,
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 44640
+                  },
+                  "arrivalWindowMin": {
+                    "description": "Promised arrival window; defaults to the intervention type's, else 0.",
+                    "nullable": true,
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 480
+                  },
+                  "ambiguity": {
+                    "description": "Which reading of a wall time the autumn change repeats.",
+                    "nullable": true,
+                    "type": "string",
+                    "enum": [
+                      "earlier",
+                      "later"
+                    ]
+                  }
+                },
+                "required": [
+                  "date",
+                  "startMinute"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "allDay": {
+                    "type": "object",
+                    "properties": {
+                      "startDate": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                      },
+                      "endDate": {
+                        "type": "string",
+                        "format": "date",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$",
+                        "description": "Exclusive."
+                      }
+                    },
+                    "required": [
+                      "startDate",
+                      "endDate"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "allDay"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "transparency": {
+            "description": "FREE on a PERSONAL entry only; never changed by an ownedOnly editor.",
+            "nullable": true,
+            "type": "string",
+            "enum": [
+              "BUSY",
+              "FREE"
+            ]
+          }
+        },
+        "required": [
+          "version"
+        ],
+        "additionalProperties": false
+      },
+      "PlanningWebhookMessage": {
+        "type": "object",
+        "required": [
+          "type",
+          "timestamp",
+          "apiVersion",
+          "tenantId",
+          "data"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "appointment.created",
+              "appointment.updated",
+              "appointment.confirmed",
+              "appointment.cancelled",
+              "appointment.completed",
+              "webhook.ping"
+            ]
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "apiVersion": {
+            "type": "string",
+            "example": "2026-10-25"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "data": {
+            "description": "The appointment as GET events/{eventId} returns it, without internalNotes; { endpointId } for webhook.ping.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PlanningEventDto"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "planningApiKey": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "ak_<prefix>_<secret>"
+      }
+    }
+  },
+  "x-webhooks": {
+    "appointment.created": {
+      "post": {
+        "summary": "appointment.created",
+        "description": "Signed per Standard Webhooks: headers webhook-id (stable across retries, deduplicate on it), webhook-timestamp (Unix seconds) and webhook-signature (v1,<base64 HMAC-SHA256 of id.timestamp.body with the base64-decoded part of whsec_...>).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanningWebhookMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Received. Anything else is retried."
+          }
+        }
+      }
+    },
+    "appointment.updated": {
+      "post": {
+        "summary": "appointment.updated",
+        "description": "Signed per Standard Webhooks: headers webhook-id (stable across retries, deduplicate on it), webhook-timestamp (Unix seconds) and webhook-signature (v1,<base64 HMAC-SHA256 of id.timestamp.body with the base64-decoded part of whsec_...>).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanningWebhookMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Received. Anything else is retried."
+          }
+        }
+      }
+    },
+    "appointment.confirmed": {
+      "post": {
+        "summary": "appointment.confirmed",
+        "description": "Signed per Standard Webhooks: headers webhook-id (stable across retries, deduplicate on it), webhook-timestamp (Unix seconds) and webhook-signature (v1,<base64 HMAC-SHA256 of id.timestamp.body with the base64-decoded part of whsec_...>).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanningWebhookMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Received. Anything else is retried."
+          }
+        }
+      }
+    },
+    "appointment.cancelled": {
+      "post": {
+        "summary": "appointment.cancelled",
+        "description": "Signed per Standard Webhooks: headers webhook-id (stable across retries, deduplicate on it), webhook-timestamp (Unix seconds) and webhook-signature (v1,<base64 HMAC-SHA256 of id.timestamp.body with the base64-decoded part of whsec_...>).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanningWebhookMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Received. Anything else is retried."
+          }
+        }
+      }
+    },
+    "appointment.completed": {
+      "post": {
+        "summary": "appointment.completed",
+        "description": "Signed per Standard Webhooks: headers webhook-id (stable across retries, deduplicate on it), webhook-timestamp (Unix seconds) and webhook-signature (v1,<base64 HMAC-SHA256 of id.timestamp.body with the base64-decoded part of whsec_...>).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanningWebhookMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Received. Anything else is retried."
+          }
+        }
+      }
+    },
+    "webhook.ping": {
+      "post": {
+        "summary": "webhook.ping",
+        "description": "Signed per Standard Webhooks: headers webhook-id (stable across retries, deduplicate on it), webhook-timestamp (Unix seconds) and webhook-signature (v1,<base64 HMAC-SHA256 of id.timestamp.body with the base64-decoded part of whsec_...>).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlanningWebhookMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "2XX": {
+            "description": "Received. Anything else is retried."
+          }
+        }
+      }
+    }
+  },
+  "x-documentation-date": "2026-10-26"
+}

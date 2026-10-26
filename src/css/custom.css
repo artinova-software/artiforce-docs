@@ -1,0 +1,84 @@
+/**
+ * Minimal Infima variable overrides for the Artinova docs site.
+ * A neutral slate/indigo primary is used instead of the Docusaurus default green.
+ */
+
+:root {
+  --ifm-color-primary: #4f46e5;
+  --ifm-color-primary-dark: #4338ca;
+  --ifm-color-primary-darker: #3f33bd;
+  --ifm-color-primary-darkest: #342a9c;
+  --ifm-color-primary-light: #6366f1;
+  --ifm-color-primary-lighter: #7274f2;
+  --ifm-color-primary-lightest: #9496f5;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(79, 70, 229, 0.1);
+}
+
+[data-theme="dark"] {
+  --ifm-color-primary: #818cf8;
+  --ifm-color-primary-dark: #6366f1;
+  --ifm-color-primary-darker: #565ef0;
+  --ifm-color-primary-darkest: #4145d6;
+  --ifm-color-primary-light: #9ca3f9;
+  --ifm-color-primary-lighter: #a9affa;
+  --ifm-color-primary-lightest: #ced0fc;
+  --docusaurus-highlighted-code-line-bg: rgba(129, 140, 248, 0.15);
+}
+
+/* Long-form documentation: stable line length and readable reference tables. */
+:root {
+  --ifm-line-height-base: 1.7;
+  --ifm-heading-line-height: 1.25;
+  --ifm-table-cell-padding: 0.7rem 0.9rem;
+}
+
+.markdown h1 {
+  letter-spacing: -0.025em;
+}
+
+.markdown h2 {
+  margin-top: 2.5rem;
+}
+
+.markdown table {
+  font-size: 0.93rem;
+}
+
+.markdown pre {
+  line-height: 1.55;
+}
+
+@media (max-width: 996px) {
+  .markdown h1 {
+    font-size: 2rem;
+  }
+
+  .markdown table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+}
+
+.home-hero { padding: 6rem 0 4.5rem; background: linear-gradient(135deg, #f1f3ff 0%, #fafbff 55%, #edf8f6 100%); border-bottom: 1px solid var(--ifm-color-emphasis-200); }
+.home-eyebrow { font-size: .75rem; font-weight: 750; letter-spacing: .13em; color: var(--ifm-color-primary); }
+.home-hero h1 { font-size: clamp(2.8rem, 6vw, 4.6rem); line-height: 1.08; letter-spacing: -.045em; max-width: 850px; }
+.home-intro { font-size: 1.2rem; max-width: 650px; margin: 1.6rem 0 2rem; color: var(--ifm-color-emphasis-700); }
+.home-actions { display: flex; flex-wrap: wrap; gap: .85rem; }
+.home-former-name { font-size: .85rem; margin-top: 1.5rem; color: var(--ifm-color-emphasis-700); }
+.home-paths { padding-top: 4rem; padding-bottom: 4rem; }
+.home-paths h2 { font-size: 1.7rem; margin-bottom: 1.8rem; letter-spacing: -.025em; }
+.home-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; }
+.home-card { padding: 1.8rem; border: 1px solid var(--ifm-color-emphasis-200); border-radius: 14px; color: var(--ifm-font-color-base); background: var(--ifm-background-surface-color); transition: border-color .15s ease; }
+.home-card:hover { border-color: var(--ifm-color-primary); text-decoration: none; color: var(--ifm-font-color-base); }
+.home-card span { font-size: .68rem; font-weight: 750; letter-spacing: .1em; color: var(--ifm-color-primary); }
+.home-card h3 { margin-top: 1rem; font-size: 1.35rem; }
+.home-card p { color: var(--ifm-color-emphasis-700); font-size: .95rem; }
+.home-card strong { color: var(--ifm-color-primary); font-size: .88rem; }
+.home-future { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding-top: 2.5rem; padding-bottom: 4rem; border-top: 1px solid var(--ifm-color-emphasis-200); }
+.home-future > div:first-child { max-width: 590px; }
+.home-future h2 { letter-spacing: -.025em; }
+[data-theme="dark"] .home-hero { background: linear-gradient(135deg, #20243b, #1b1c23 65%, #1b2b2a); }
+@media (max-width: 996px) { .home-hero { padding: 3.5rem 0 2.5rem; } .home-grid { grid-template-columns: 1fr; } .home-future { align-items: flex-start; flex-direction: column; } }
+@media (prefers-reduced-motion: reduce) { .home-card { transition: none; } }
