@@ -16,7 +16,14 @@ const config: Config = {
 
   future: {
     faster: true,
-    v4: true,
+    v4: {
+      removeLegacyPostBuildHeadAttribute: true,
+      // Keep custom styles authoritative with the current CSS minimizer.
+      useCssCascadeLayers: false,
+      siteStorageNamespacing: true,
+      fasterByDefault: true,
+      mdx1CompatDisabledByDefault: true,
+    },
   },
 
   favicon: "img/favicon.svg",
